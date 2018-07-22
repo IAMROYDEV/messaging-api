@@ -10,10 +10,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 use App\MessageQueue;
 
-class MessagingJob implements ShouldQueue
-{
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    
+class MessagingJob implements ShouldQueue {
+
+    use Dispatchable,
+        InteractsWithQueue,
+        Queueable,
+        SerializesModels;
+
     protected $url;
 
     /**
@@ -21,8 +24,7 @@ class MessagingJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         
     }
 
@@ -31,23 +33,23 @@ class MessagingJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
-    {
+    public function handle() {
         $msgs = MessageQueue::orderBy('id', 'ASC')->get();
         foreach ($msgs as $msg) {
-            if(!$msg) {
+            if (!$msg) {
                 return;
             }
             $host = env('POST_MESSAGE_URL');
-            $sendMsgUrl ="{$host}?message={$msg->msg}&to_number={$msg->to_number}";
-            if($msg->udh) {
+            $sendMsgUrl = "{$host}?message={$msg->msg}&to_number={$msg->to_number}";
+            if ($msg->udh) {
                 $sendMsgUrl .= "&udh={$msg->udh}";
             }
             Log::channel('messagelog')->info($sendMsgUrl);
-            
+
             $msg->delete();
             sleep(env('REQUEST_FREQUENCY', 1));
         }
         return 1;
     }
+
 }

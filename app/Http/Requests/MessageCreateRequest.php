@@ -4,8 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MessageCreateRequest extends FormRequest
-{
+class MessageCreateRequest extends FormRequest {
     /*
      * Validator instance updated on failedValidation
      *
@@ -19,8 +18,7 @@ class MessageCreateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return true;
     }
 
@@ -42,11 +40,11 @@ class MessageCreateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'text' => 'required|string',
             'to_number' => 'required|numeric'
         ];
     }
+
 }
