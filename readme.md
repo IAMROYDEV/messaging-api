@@ -10,9 +10,9 @@
 
 ### Usage
 
-API endpoint: `/api/messages`
-Method: `POST`
-Params:
+- API endpoint: `/api/messages`
+- Method: `POST`
+- Params:
     - `text` : The full message to be send.
     - `to_number`: Recipients phone number.
 
