@@ -10,9 +10,11 @@ class MessageUdhService {
     private $udh, $msgPart;
 
     /**
-     * 
+     * Instantiate a new controller instance.
+     *
+     * @return void
      */
-    function __construct() {
+    public function __construct() {
         $this->udh = array(
             'udh_length' => '05',
             'identifier' => '00',
@@ -25,9 +27,10 @@ class MessageUdhService {
     }
 
     /**
+     * Create message part with udh
      * 
-     * @param type $msg
-     * @return type
+     * @param string $msg
+     * @return array
      */
     public function createMsg($msg) {
         $x = 1;
@@ -52,7 +55,7 @@ class MessageUdhService {
 
     /**
      * 
-     * @param type $ref
+     * @param integer $ref
      * @return type
      */
     private function dechexStr($ref) {

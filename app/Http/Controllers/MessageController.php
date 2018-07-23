@@ -25,7 +25,7 @@ class MessageController extends Controller {
     }
 
     /**
-     * Send message and stores in db
+     * Send message and log messages in message.log file
      * 
      * @param MessageCreateRequest $request
      * @return type
