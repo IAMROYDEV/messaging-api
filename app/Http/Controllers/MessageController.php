@@ -34,18 +34,22 @@ class MessageController extends Controller {
         if (isset($request->validator) && $request->validator->fails()) {
             return response()->json(['status' => 400, 'message' => 'Validation Failed', 'errors' => $request->validator->messages()], 400);
         }
-        $params = $request->all();
-        $host = env('POST_MESSAGE_URL');
-        $msgs = $this->messageUdhService->createMsg($params['text']);
-        foreach ($msgs as $value) {
-            extract($value);
-            MessageQueue::create(['msg' => $msg, 'udh' => $udh, 'to_number' => $params['to_number']]);
+        try {
+            $params = $request->all();
+            $host = env('POST_MESSAGE_URL');
+            $msgs = $this->messageUdhService->createMsg($params['text']);
+            foreach ($msgs as $value) {
+                extract($value);
+                MessageQueue::create(['msg' => $msg, 'udh' => $udh, 'to_number' => $params['to_number']]);
+            }
+            $count = count($msgs);
+            return response()->json([
+                        'status' => 200,
+                        'message' => "{$count} message(s) dispatched"
+            ]);
+        } catch (\Exception $e) {
+            return $e;
         }
-        $count = count($msgs);
-        return response()->json([
-                    'status' => 200,
-                    'message' => "{$count} message(s) dispatched"
-        ]);
     }
 
 }
